@@ -15,3 +15,13 @@ C:\Users\sred13\Dropbox\My Code\WPF\postIII\BlogPostIII\BlogPostIII\obj\Debug\Bl
 C:\Users\Stephen\Dropbox\My Code\WPF\postIII\BlogPostIII\BlogPostIII\bin\Debug\BlogPostIII.exe.config
 C:\Users\Stephen\Dropbox\My Code\WPF\postIII\BlogPostIII\BlogPostIII\obj\Debug\BlogPostIII.exe
 C:\Users\Stephen\Dropbox\My Code\WPF\postIII\BlogPostIII\BlogPostIII\obj\Debug\BlogPostIII.pdb
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\bin\Debug\BlogPostIII.exe.config
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\BlogPostIII.exe
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\BlogPostIII.pdb
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\BlogPostIII.csprojResolveAssemblyReference.cache
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\RadioButtons.g.cs
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\MainWindow.g.cs
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\Checkboxes.g.cs
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\App.g.cs
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\BlogPostIII_MarkupCompile.cache
+C:\Users\Stephen\Documents\WPF\Post_III\VisualStudio\obj\Debug\BlogPostIII_MarkupCompile.lref
