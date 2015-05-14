@@ -26,8 +26,7 @@ $inputXML = @"
         <TextBlock x:Name="password_label" HorizontalAlignment="Left" Height="25" Margin="303,47,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="91" Background="#FF98BCD4" FontSize="16"/>
         <TextBlock x:Name="targetOU_label" HorizontalAlignment="Left" Height="25" Margin="303,89,0,0" TextWrapping="Wrap" Text="Target OU" VerticalAlignment="Top" Width="91" Background="#FF98BCD4" FontSize="16"/>
         <ComboBox x:Name="targetOU_comboBox" HorizontalAlignment="Left" Margin="415,92,-18,0" VerticalAlignment="Top" Width="120"/>
-
-
+        <TextBlock x:Name="DefaultOUMsg" Text ="If TargetOu not specified, user will be placed in the @anchor OU" HorizontalAlignment="Left" Margin="303,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFFBFAFA" FontSize="14.667"/>
     </Grid>
 </Window>
 "@        
@@ -60,7 +59,65 @@ Get-FormVariables
 #===========================================================================
 # Actually make the objects work
 #===========================================================================
-                                                               
+
+#Resolve the default OU to show where the user will end up
+$defaultOU = (get-adobject -filter 'ObjectClass -eq "domain"' -Properties wellKnownObjects).wellknownobjects.Split("`n")[-1].Split(':') | select -Last 1
+ $WPFDefaultOUMsg.Text = $WPFDefaultOUMsg.Text -replace "@anchor",$defaultOU
+
+#gather all of the settings the user specifies, needed to splat to the New-ADUser Cmd later
+function Get-FormFields {
+$TargetOU = if ($WPFtargetOU_comboBox.Text -ne $null){$WPFtargetOU_comboBox.Text}else{$defaultOU}
+if ($WPFcheckBox.IsChecked){
+    $ExpirationDate = if ($WPFradioButton_7.IsChecked -eq $true){7}`
+                elseif ($WPFradioButton_30.IsChecked -eq $true){30}`
+                elseif ($WPFradioButton_90.IsChecked -eq $true){90}
+    
+    $ExpirationDate = (get-date).AddDays($ExpirationDate)
+    
+    $HashArguments = 
+        @{ Name = $WPFlogonName.Text;
+           GivenName=$WPFfirstName.Text;
+           SurName = $WPFlastName.Text;
+           AccountPassword=($WPFpassword.text | ConvertTo-SecureString -AsPlainText -Force);
+           AccountExpirationDate = $ExpirationDate;
+           Path=$TargetOU;
+            }
+        }
+    else{
+    $HashArguments = 
+       @{ Name = $WPFlogonName.Text;
+          GivenName=$WPFfirstName.Text;
+          SurName = $WPFlastName.Text;
+          AccountPassword=($WPFpassword.text | ConvertTo-SecureString -AsPlainText -Force);
+          Path=$TargetOU;
+          }
+    }
+$HashArguments
+}
+
+$defaultOU,"OU=Contractors,DC=FOXDEPLOY,DC=local" | ForEach-object {$WPFtargetOU_comboBox.AddChild($_)}
+
+#Add logic to the checkbox to enable items when checked
+$WPFcheckBox.Add_Checked({
+    $WPFradioButton_7.IsEnabled=$true
+   $WPFradioButton_30.IsEnabled=$true
+   $WPFradioButton_90.IsEnabled=$true
+    $WPFradioButton_7.IsChecked=$true
+    })
+
+$WPFcheckBox.Add_UnChecked({
+    $WPFradioButton_7.IsEnabled=$false
+   $WPFradioButton_30.IsEnabled=$false
+   $WPFradioButton_90.IsEnabled=$false
+    $WPFradioButton_7.IsChecked,$WPFradioButton_30.IsChecked,$WPFradioButton_90.IsChecked=$false,$false,$false})
+
+#$WPFMakeUserbutton.Add_Click({(Get-FormFields)})
+$WPFMakeUserbutton.Add_Click({
+    #Resolve Form Settings
+    $hash = Get-FormFields
+    New-ADUser @hash -PassThru
+    $Form.Close()})
+
 
 #Reference Sample entry of how to add data to a field
     #$vmpicklistView.items.Add([pscustomobject]@{'VMName'=($_).Name;Status=$_.Status;Other="Yes"})
@@ -76,3 +133,5 @@ function Show-Form{
 $Form.ShowDialog() | out-null
 
 }
+
+Show-Form

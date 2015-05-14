@@ -24,7 +24,6 @@
         <TextBlock x:Name="password_label" HorizontalAlignment="Left" Height="25" Margin="303,47,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="91" Background="#FF98BCD4" FontSize="16"/>
         <TextBlock x:Name="targetOU_label" HorizontalAlignment="Left" Height="25" Margin="303,89,0,0" TextWrapping="Wrap" Text="Target OU" VerticalAlignment="Top" Width="91" Background="#FF98BCD4" FontSize="16"/>
         <ComboBox x:Name="targetOU_comboBox" HorizontalAlignment="Left" Margin="415,92,-18,0" VerticalAlignment="Top" Width="120"/>
-
-
+        <TextBlock x:Name="DefaultOUMsg" Text ="If TargetOu not specified, user will be placed in the @anchor OU" HorizontalAlignment="Left" Margin="303,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#FFFBFAFA" FontSize="14.667"/>
     </Grid>
 </Window>
